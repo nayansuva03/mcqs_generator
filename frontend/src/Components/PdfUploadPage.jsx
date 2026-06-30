@@ -29,7 +29,7 @@ function PdfUploadPage({ FinalFiles }) {
     <div className="bg-white p-8 sm:p-10 rounded-3xl shadow-xl w-full max-w-md flex flex-col gap-6 border border-slate-100">
       <div className="text-center">
         <h1 className="text-2xl font-extrabold text-slate-800 mb-2">Upload Document</h1>
-        <p className="text-slate-500 text-sm">Upload your PDF to automatically generate multiple-choice questions.</p>
+        <p className="text-slate-500 text-sm">Upload your PDF to generate questions.</p>
       </div>
 
       <div className="border-2 border-dashed border-slate-300 rounded-2xl p-8 flex flex-col items-center justify-center bg-slate-50 hover:bg-slate-100 hover:border-indigo-400 transition-colors duration-200 group">
