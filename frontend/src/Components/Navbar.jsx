@@ -1,6 +1,6 @@
 function Navbar({ isLoggedIn, currentView, setCurrentView, onLogin, onLogout }) {
 
-  // Quick dynamic text styling mapper function
+  // helper function for tailwind css
   const linkClass = (view) =>
     `font-semibold text-sm px-1 py-5 transition-all border-b-2 ${currentView === view
       ? "text-indigo-600 border-indigo-600"
@@ -13,10 +13,9 @@ function Navbar({ isLoggedIn, currentView, setCurrentView, onLogin, onLogout }) 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
 
-          {/* App Title Identity */}
           <div onClick={() => setCurrentView("home")} className="flex-shrink-0 flex items-center gap-2 cursor-pointer">
             <span className="font-extrabold text-slate-800 text-xl tracking-tight">
-              Q<span className="text-indigo-600">G</span>
+              Q<span className="text-indigo-600">G    </span>
             </span>
           </div>
 
@@ -39,7 +38,7 @@ function Navbar({ isLoggedIn, currentView, setCurrentView, onLogin, onLogout }) 
                 onClick={onLogin}
                 className="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-xl text-sm font-bold shadow-md hover:shadow-lg transform hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200"
               >
-                Log In/Sign In
+              Register
               </button>
             ) : (
               <button
