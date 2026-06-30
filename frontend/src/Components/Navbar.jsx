@@ -16,7 +16,7 @@ function Navbar({ isLoggedIn, currentView, setCurrentView, onLogin, onLogout }) 
           {/* App Title Identity */}
           <div onClick={() => setCurrentView("home")} className="flex-shrink-0 flex items-center gap-2 cursor-pointer">
             <span className="font-extrabold text-slate-800 text-xl tracking-tight">
-              Questions<span className="text-indigo-600"> Generator</span>
+              Q<span className="text-indigo-600">G</span>
             </span>
           </div>
 
