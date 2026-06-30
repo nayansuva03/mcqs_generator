@@ -1,14 +1,28 @@
 import { useState } from "react";
 
-function PdfUploadPage({ onGenerate }) {
-  const [file, setfile] = useState(null);
+function PdfUploadPage({ FinalFiles }) {
+  const [file, setfile] = useState([]);
 
-  function handelFile() {
-    if (!file || file.type !== "application/pdf") {
-      alert("Please upload a valid PDF document.");
+  function handelFileChange (e) {
+    const selectedFiles = Array.from(e.target.files);
+    setfile(selectedFiles);
+  }
+
+  function handelFileSelect (){
+    if(file.length === 0){
+      alert("please select a PDF");
       return;
     }
-    onGenerate(file);
+
+    const allArePDFs = file.every((f) => f.type === "application/pdf");
+    // jo badhi file pdf hase to true return karse nahitar faulse retun karse.
+
+    if (!allArePDFs) {
+      alert("All uploaded files must be valid PDF documents.");
+      return;
+    }
+
+    FinalFiles(file);
   }
 
   return (
@@ -23,9 +37,10 @@ function PdfUploadPage({ onGenerate }) {
         <p className="text-slate-700 font-medium mb-1">Select a PDF file</p>
         
         <input
-          onChange={(e) => setfile(e.target.files[0])}
+          onChange={handelFileChange}
           type="file"
           accept=".pdf"
+          multiple
           className="mt-4 block w-full text-sm text-slate-500
             file:mr-4 file:py-2.5 file:px-4
             file:rounded-xl file:border-0
@@ -36,15 +51,15 @@ function PdfUploadPage({ onGenerate }) {
       </div>
 
       <button
-        onClick={handelFile}
-        disabled={!file}
+        onClick={handelFileSelect}
+        disabled={file.length === 0}
         className={`w-full py-3.5 px-4 rounded-xl font-bold text-white transition-all duration-200 
-          ${file 
+          ${file.length > 0 
             ? "bg-indigo-600 hover:bg-indigo-700 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 active:translate-y-0" 
             : "bg-slate-300 cursor-not-allowed"
           }`}
       >
-        Generate MCQs ✨
+        Generate Questions ✨
       </button>
     </div>
   );

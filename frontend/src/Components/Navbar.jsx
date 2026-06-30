@@ -17,7 +17,7 @@ function Navbar({ isLoggedIn, onOpenLogin, onLogout, currentView, setCurrentView
           <div onClick={() => isLoggedIn && setCurrentView("home")} className="flex-shrink-0 flex items-center gap-2 cursor-pointer">
             <span className="text-2xl">🧠</span>
             <span className="font-extrabold text-slate-800 text-xl tracking-tight">
-              MCQs<span className="text-indigo-600"> Generator</span>
+              Questions<span className="text-indigo-600"> Generator</span>
             </span>
           </div>
 

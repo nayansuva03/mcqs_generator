@@ -29,12 +29,15 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
 
-  async function handelGenerate(file) {
+  async function handelFinalFiles(listOfFiles) {
     setpage("loading");
     try {
-      const text = await extracteFromPdf(file);
-      setpdfText(text);
-      const questions = await generateMCQs(text);
+      const ArrayOfText = await Promise.all(listOfFiles.map(f => extracteFromPdf(f)));
+      const CombainedText = ArrayOfText.join('\n\n')
+      setpdfText(CombainedText);
+
+      
+      const questions = await generateMCQs(CombainedText);
       setMcq(questions);
       setpage("download");
     } catch (error) {
@@ -81,7 +84,7 @@ function App() {
           <>
             {currentView === "home" && (
               <>
-                {page === "upload" && <PdfUploadPage onGenerate={handelGenerate} />}
+                {page === "upload" && <PdfUploadPage FinalFiles={handelFinalFiles} />}
                 {page === "loading" && <Loading />}
                 {page === "download" && <Download mcqs={Mcq} onReset={() => setpage("upload")} />}
               </>
