@@ -1,0 +1,246 @@
+import React, { useState } from "react";
+
+function ExamPaperOptions({ onSubmitPaper, onBack }) {
+  // Centralized state holding all form configurations
+  const [formData, setFormData] = useState({
+    instituteName: "",
+    instituteLogo: null,
+    bgImage: null,
+    courseStandard: "",
+    subject: "",
+    timeDuration: "",
+    totalMarks: "",
+    difficulty: "Medium",
+    questionTypes: {
+      mcq: { checked: false, extra: false },
+      trueFalse: { checked: false, extra: false },
+      oneLiner: { checked: false, extra: false },
+      longQuestion: { checked: false, extra: false },
+    },
+  });
+
+  // Handle standard text, number, and select input adjustments
+  function handleInputChange(e) {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  }
+
+  // Handle image/media file targets safely
+  function handleFileChange(e) {
+    const { name, files } = e.target;
+    if (files && files[0]) {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: files[0],
+      }));
+    }
+  }
+
+  // Handle nested matrix checkbox evaluations
+  function handleCheckboxChange(type, field) {
+    setFormData((prev) => ({
+      ...prev,
+      questionTypes: {
+        ...prev.questionTypes,
+        [type]: {
+          ...prev.questionTypes[type],
+          [field]: !prev.questionTypes[type][field],
+        },
+      },
+    }));
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    
+    // Basic structural validation check
+    if (!formData.instituteName || !formData.subject || !formData.totalMarks) {
+      alert("Please fill in the core parameters (Institute Name, Subject, and Total Marks).");
+      return;
+    }
+    
+    onSubmitPaper(formData);
+  }
+
+  return (
+    <div className="bg-white p-8 sm:p-10 rounded-3xl shadow-xl w-full max-w-2xl border border-slate-100 animate-in fade-in duration-200">
+      {/* Structural Heading Actions */}
+      <button 
+        type="button"
+        onClick={onBack}
+        className="text-slate-400 hover:text-slate-600 font-semibold text-xs flex items-center gap-1 mb-6 transition-colors"
+      >
+        ← Back
+      </button>
+
+      <div className="mb-8">
+        <h2 className="text-2xl font-extrabold text-slate-800">Exam Paper Parameters</h2>
+        <p className="text-slate-500 text-sm mt-1">Configure structural layout properties and content metrics for evaluation.</p>
+      </div>
+
+      <form onSubmit={handleSubmit} className="space-y-6">
+        
+        {/* Core Identity Parameters Context Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="sm:col-span-2">
+            <label className="block text-slate-700 font-bold text-sm mb-1.5">Institute Name</label>
+            <input
+              type="text"
+              name="instituteName"
+              value={formData.instituteName}
+              onChange={handleInputChange}
+              placeholder="e.g. Stanford University or ABC High School"
+              className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-800 text-sm font-medium transition-shadow"
+            />
+          </div>
+
+          <div>
+            <label className="block text-slate-700 font-bold text-sm mb-1.5">Institute Logo</label>
+            <input
+              type="file"
+              name="instituteLogo"
+              accept="image/*"
+              onChange={handleFileChange}
+              className="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-indigo-50 file:text-indigo-600 hover:file:bg-indigo-100 cursor-pointer border border-slate-200 p-1 rounded-xl"
+            />
+          </div>
+
+          <div>
+            <label className="block text-slate-700 font-bold text-sm mb-1.5">Background Watermark / Image</label>
+            <input
+              type="file"
+              name="bgImage"
+              accept="image/*"
+              onChange={handleFileChange}
+              className="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-indigo-50 file:text-indigo-600 hover:file:bg-indigo-100 cursor-pointer border border-slate-200 p-1 rounded-xl"
+            />
+          </div>
+
+          <div>
+            <label className="block text-slate-700 font-bold text-sm mb-1.5">Course / Standard</label>
+            <input
+              type="text"
+              name="courseStandard"
+              value={formData.courseStandard}
+              onChange={handleInputChange}
+              placeholder="e.g. B.Tech Semester IV or Class 12"
+              className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-800 text-sm font-medium transition-shadow"
+            />
+          </div>
+
+          <div>
+            <label className="block text-slate-700 font-bold text-sm mb-1.5">Subject</label>
+            <input
+              type="text"
+              name="subject"
+              value={formData.subject}
+              onChange={handleInputChange}
+              placeholder="e.g. Database Management Systems"
+              className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-800 text-sm font-medium transition-shadow"
+            />
+          </div>
+
+          <div>
+            <label className="block text-slate-700 font-bold text-sm mb-1.5">Time Duration</label>
+            <input
+              type="text"
+              name="timeDuration"
+              value={formData.timeDuration}
+              onChange={handleInputChange}
+              placeholder="e.g. 3 Hours or 90 Mins"
+              className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-800 text-sm font-medium transition-shadow"
+            />
+          </div>
+
+          <div>
+            <label className="block text-slate-700 font-bold text-sm mb-1.5">Total Marks</label>
+            <input
+              type="number"
+              name="totalMarks"
+              value={formData.totalMarks}
+              onChange={handleInputChange}
+              placeholder="e.g. 70 or 100"
+              className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-800 text-sm font-medium transition-shadow"
+            />
+          </div>
+
+          <div className="sm:col-span-2">
+            <label className="block text-slate-700 font-bold text-sm mb-1.5">Difficulty Profile</label>
+            <select
+              name="difficulty"
+              value={formData.difficulty}
+              onChange={handleInputChange}
+              className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-800 text-sm font-medium bg-white transition-shadow"
+            >
+              <option value="Easy">Easy (Conceptual Fundamentals)</option>
+              <option value="Medium">Medium (Balanced Analysis)</option>
+              <option value="Hard">Hard (Complex Architecture Problems)</option>
+            </select>
+          </div>
+        </div>
+
+        <hr className="border-slate-100" />
+
+        {/* Specialized Structural Checkbox Selection Layer */}
+        <div>
+          <label className="block text-slate-700 font-bold text-sm mb-3">Questions Structural Configuration Matrix</label>
+          <div className="bg-slate-50 rounded-2xl border border-slate-200 divide-y divide-slate-200 overflow-hidden">
+            
+            {/* Row Definition Mapper Helper Block */}
+            {[
+              { id: "mcq", label: "MCQs" },
+              { id: "trueFalse", label: "True / False" },
+              { id: "oneLiner", label: "One Liner Questions" },
+              { id: "longQuestion", label: "Long Questions" },
+            ].map((item) => (
+              <div key={item.id} className="flex items-center justify-between p-4 bg-slate-50/50 hover:bg-white transition-colors duration-150">
+                {/* Main Checkbox Context */}
+                <label className="flex items-center gap-3 cursor-pointer select-none font-semibold text-slate-700 text-sm">
+                  <input
+                    type="checkbox"
+                    checked={formData.questionTypes[item.id].checked}
+                    onChange={() => handleCheckboxChange(item.id, "checked")}
+                    className="w-4 h-4 rounded text-indigo-600 border-slate-300 focus:ring-indigo-500 transition-colors"
+                  />
+                  {item.label}
+                </label>
+
+                {/* Sub-Checkbox Secondary Metric Configuration Toggle */}
+                <label 
+                  className={`flex items-center gap-2 cursor-pointer select-none text-xs font-medium transition-all ${
+                    formData.questionTypes[item.id].checked 
+                      ? "text-slate-600" 
+                      : "text-slate-300 opacity-50 pointer-events-none"
+                  }`}
+                >
+                  <input
+                    type="checkbox"
+                    disabled={!formData.questionTypes[item.id].checked}
+                    checked={formData.questionTypes[item.id].extra}
+                    onChange={() => handleCheckboxChange(item.id, "extra")}
+                    className="w-3.5 h-3.5 rounded text-indigo-600 border-slate-300 focus:ring-indigo-500 disabled:bg-slate-200 transition-colors"
+                  />
+                  Extra / Optional
+                </label>
+              </div>
+            ))}
+
+          </div>
+        </div>
+
+        {/* Process Initiation Action Engine Button */}
+        <button
+          type="submit"
+          className="w-full mt-2 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-md hover:shadow-lg transform hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200"
+        >
+          Generate Exam Paper 🚀
+        </button>
+      </form>
+    </div>
+  );
+}
+
+export default ExamPaperOptions;

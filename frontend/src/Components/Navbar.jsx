@@ -1,8 +1,10 @@
-function Navbar({ isLoggedIn, currentView, setCurrentView, onLogin, onLogout }) {
+import { NavLink } from 'react-router-dom'
+
+function Navbar({ isLoggedIn, onLogin, onLogout }) {
 
   // helper function for tailwind css
-  const linkClass = (view) =>
-    `font-semibold text-sm px-1 py-5 transition-all border-b-2 ${currentView === view
+  const getLinkClass = ({ isActive }) =>
+    `font-semibold text-sm px-1 py-2 transition-all border-b-2 ${isActive
       ? "text-indigo-600 border-indigo-600"
       : "text-slate-500 border-transparent hover:text-slate-800"
     }`;
@@ -13,22 +15,17 @@ function Navbar({ isLoggedIn, currentView, setCurrentView, onLogin, onLogout }) 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
 
-          <div onClick={() => setCurrentView("home")} className="flex-shrink-0 flex items-center gap-2 cursor-pointer">
-            <span className="font-extrabold text-slate-800 text-xl tracking-tight">
-              Q<span className="text-indigo-600">G    </span>
+<NavLink to="/" className="flex-shrink-0 flex items-center gap-2 cursor-pointer">
+   <span className="font-extrabold text-slate-800 text-xl tracking-tight">
+              Doc <span className="text-indigo-600">Pro    </span>
             </span>
-          </div>
+</NavLink>
+
 
           <div className="flex space-x-8 h-full items-center">
-            <button onClick={() => setCurrentView("home")} className={linkClass("home")}>
-              Home
-            </button>
-            <button onClick={() => setCurrentView("previous")} className={linkClass("previous")}>
-              Previous PDFs
-            </button>
-            <button onClick={() => setCurrentView("about")} className={linkClass("about")}>
-              About
-            </button>
+            <NavLink to="/" className={getLinkClass}>Home</NavLink>
+            <NavLink to="/PreviousPDFs" className={getLinkClass}>Previous PDFs</NavLink>
+            <NavLink to="/About" className={getLinkClass}>About</NavLink>
           </div>
 
 
@@ -38,7 +35,7 @@ function Navbar({ isLoggedIn, currentView, setCurrentView, onLogin, onLogout }) 
                 onClick={onLogin}
                 className="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-xl text-sm font-bold shadow-md hover:shadow-lg transform hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200"
               >
-              Register
+                Register
               </button>
             ) : (
               <button
